@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sasori7611san/I_have_seen_it_part1#readme",
   "devDependencies": {
+    "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   }
 }
