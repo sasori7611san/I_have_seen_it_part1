@@ -18,6 +18,11 @@ const LINE_HEAD2 = 5;
 const LINE_HEAD3 = 10;
 const LINE_HEAD4 = 15;
 const LINE_HEAD5 = 20;
+const LINE_BOTTOM1 = 4;
+const LINE_BOTTOM2 = 9;
+const LINE_BOTTOM3 = 14;
+const LINE_BOTTOM4 = 19;
+const LINE_BOTTOM5 = 24;
 
 
 
@@ -48,111 +53,131 @@ const action = (num) => {
         // switcher(color, strId, num);
         // switcher2(color, strId);
         colorSet(color, strId);
-        // panelChange(panels, num - 1);
+        panelChange(panels, num);
     }
 };
 
-const switcher = (c, s, n) => {
-    const elem = document.getElementById(s);
-    let an = n - 1;
-    switch(c) {
-        case 2:
-            elem.style.backgroundColor = "red";
-            panels[an].color = 2;
-            break;
-        case 3:
-            elem.style.backgroundColor = "green";
-            panels[an].color = 3;
-            break;
-        case 4:
-            elem.style.backgroundColor = "white";
-            panels[an].color = 4;
-            break;
-        case 5:
-            elem.style.backgroundColor = "blue";
-            panels[an].color = 5;
-            break;
-        case 1:
-            elem.style.backgroundColor = "yellow";
-            panels[an].color = 1;
-            break;
-        default:
-            elem.style.backgroundColor = "gray";
-            panels[an].color = 0;
-            break;
-    }
-    console.log(panels);
-};
+// const switcher = (c, s, n) => {
+//     const elem = document.getElementById(s);
+//     let an = n - 1;
+//     switch(c) {
+//         case 2:
+//             elem.style.backgroundColor = "red";
+//             panels[an].color = 2;
+//             break;
+//         case 3:
+//             elem.style.backgroundColor = "green";
+//             panels[an].color = 3;
+//             break;
+//         case 4:
+//             elem.style.backgroundColor = "white";
+//             panels[an].color = 4;
+//             break;
+//         case 5:
+//             elem.style.backgroundColor = "blue";
+//             panels[an].color = 5;
+//             break;
+//         case 1:
+//             elem.style.backgroundColor = "yellow";
+//             panels[an].color = 1;
+//             break;
+//         default:
+//             elem.style.backgroundColor = "gray";
+//             panels[an].color = 0;
+//             break;
+//     }
+//     console.log(panels);
+// };
 
-const panelChange = (pan, numb) => {
+const panelChange = (pan, num) => {
+    // 配列に合う番号に修正
+    let idNum = num--; 
+
     // 起点の色
-    let cn = pan[numb].color;
-    let vnum = Math.floor(numb / 5);
-    let snum = numb % 5;
-    let stop = false;
+    let cn = pan[idNum].color;
+    let vnum = Math.floor(idNum / 5);
+    let snum = idNum % 5;
+    let changeNo = [];
+    let upStop = false;
+    let downStop = false;
+    let leftStop = false;
+    let rightStop = false;
+    let leftUpStop = false;
+    let leftDownStop = false;
+    let rightUpStop = false;
+    let rightDownStop = false;
     // 上確認
-    for (i = numb - 1; i <= 0; i--) {
-        if (i % 5 == snum && !stop){
+    for (i = idNum - 1; i >= LINE_HEAD1; i--) {
+        if (i % 5 === snum && !upStop){
             if (pan[i].color !== cn && pan[i].color > 1) {
-                pan[i].change = true;
+                i > LINE_BOTTOM1 ? changeNo.add(i) : upStop = true;
+            } else if (pan[i].color === cn) {
+                upStop = true;
             } else {
-                stop = true;
+                changeNo = [];
+                upStop = true;                
             }
         }  
     }
     // 色変更
-    for (i = numb - 1; i <= 0; i--) {
-        colorChange(pan, cn, i) ;
-    }
+    changeNo = colorChange2(changeNo, cn);
     // 下確認
-    for (i = numb + 1; i > 25; i++) {
-        if (i % 5 == snum && !stop){
+    for (i = idNum + 1; i <= LINE_BOTTOM5; i++) {
+        if (i % 5 == snum && !downStop){
             if (pan[i].color !== cn && pan[i].color > 1) {
-                pan[i].change = true;
+                i < LINE_HEAD5 ? pan[i].change = true : downStop = true;
             } else {
-                stop = true;
+                downStop = true;
             }
         }
     }
     // 色変更
-    for (i = numb + 1; i > 25; i++) {
-        colorChange(pan, cn, i) ;
+    for (i = idNum + 1; i <= LINE_BOTTOM5; i++) {
+        if (pan[i].change) {
+            colorSet(cn, strNum); 
+        }       
     }
     // 横の準備
     line = 0;
+    lineLast = 0;
     switch (vnum) {
         case 1:
             line = LINE_HEAD2;
+            lineLast = LINE_BOTTOM2;
             break;
         case 2:
             line = LINE_HEAD3;
+            lineLast = LINE_BOTTOM3;
             break;
         case 3:
             line = LINE_HEAD4;
+            lineLast = LINE_BOTTOM4;
             break;
         case 4:
             line = LINE_HEAD5;
+            lineLast = LINE_BOTTOM5;
             break;
         default:
             line = LINE_HEAD1;
+            lineLast = LINE_BOTTOM1;
             break;
     }
-    lineLast = line + 4;
-
     // 左確認
-    for (i = numb - 1; i >= line; i--) {
+    for (i = idNum - 1; i >= line; i--) {
         if (pan[i].color !== cn && pan[i].color > 1) {
-            pan[i].change = true;
+            i > line ? pan[i].change = true : leftStop = true;
         } else {
-            stop = true;
+            leftStop = true;
         }
     }
     // 色変更
-    for (i = numb - 1; i >= line; i--) {
-        colorChange(pan, cn, i) ;
+    for (i = idNum - 1; i >= line; i--) {
+        if (pan[i].change) {
+            colorSet(cn, strNum); 
+        }
     }
     // 右確認
-    for (i = numb + 1; i <= lineLast; i++) {
+    for (i = num + 1; i <= lineLast; i++) {
         if (pan[i].color !== cn && pan[i].color > 1) {
             pan[i].change = true;
         } else {
@@ -160,11 +185,11 @@ const panelChange = (pan, numb) => {
         }
     }
     // 色変更
-    for (i = numb + 1; i <= lineLast; i++) {
+    for (i = num + 1; i <= lineLast; i++) {
         colorChange(pan, cn, i) ;
     }
     // 左上確認
-    for (i = numb - 1; i >= 0; i -= 6) {
+    for (i = num - 1; i >= 0; i -= 6) {
         if (!stop) {
             if (pan[i].color !== cn && pan[i].color > 1) {
                 pan[i].change = true;
@@ -174,11 +199,11 @@ const panelChange = (pan, numb) => {
         }        
     }
     // 色変更
-    for (i = numb - 1; i >= 0; i -= 6) {
+    for (i = num - 1; i >= 0; i -= 6) {
         colorChange(pan, cn, i) ;        
     }
     // 左下確認
-    for (i = numb + 1; i < 24; i += 4) {
+    for (i = num + 1; i < 24; i += 4) {
         if (!stop) {
             if (pan[i].color !== cn && pan[i].color > 1) {
                 pan[i].change = true;
@@ -188,11 +213,11 @@ const panelChange = (pan, numb) => {
         }
     }
     // 色変更
-    for (i = numb + 1; i < 24; i++) {
+    for (i = num + 1; i < 24; i++) {
         colorChange(pan, cn, i); 
     }
     // 右上確認
-    for (i = numb - 1; i > 0; i -4) {
+    for (i = num - 1; i > 0; i -4) {
         if (!stop) {
             if (pan[i].color !== cn && pan[i].color > 1) {
                 pan[i].change = true;
@@ -202,11 +227,11 @@ const panelChange = (pan, numb) => {
         }
     }
     // 色変更
-    for (i = numb - 1; i > 0; i -4) {
+    for (i = num - 1; i > 0; i -4) {
         colorChange(pan, cn, i);
     }
     // 右下確認
-    for (i = numb + 1; i < 25; i += 6) {
+    for (i = num + 1; i < 25; i += 6) {
         if (!stop) {
             if (pan[i].color !== cn && pan[i].color > 1) {
                 pan[i].change = true;
@@ -216,7 +241,7 @@ const panelChange = (pan, numb) => {
         }
     }
     // 色変更
-    for (i = numb + 1; i < 25; i += 6) {
+    for (i = num + 1; i < 25; i += 6) {
         colorChange(pan, cn, i);
     }
 };
@@ -267,10 +292,21 @@ const colorSet = (col, id) => {
     console.log(panels);
 }
 
-const switcher2 = (c, n) => {
-    colorSet(n, c)
-    console.log(panels);
-};
+// 色変更
+const colorChange2 = (chgn, colNo) => {
+    for (let j of chgn) {
+        // パネル用に文字列に変換
+        let strNum = chgn[j].toString();
+        colorSet(colNo, strNum);
+    }
+    chgn = [];
+    return chgn;
+}
+
+// const switcher2 = (c, n) => {
+//     colorSet(n, c)
+//     console.log(panels);
+// };
 // const panelChange = (pan, numb) => {
 //     let vn = Math.floor(numb / 5);
 //     let sn = numb % 5;
