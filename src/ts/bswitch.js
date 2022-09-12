@@ -45,7 +45,9 @@ const action = (num) => {
         }
     } else if (num <= 25) {
         strId = num.toString();
-        switcher(color, strId, num);
+        // switcher(color, strId, num);
+        // switcher2(color, strId);
+        colorSet(color, strId);
         // panelChange(panels, num - 1);
     }
 };
@@ -227,6 +229,48 @@ const colorChange = (p, colNo, num) => {
         p[num].change = false;
     }
 }
+
+const colorSet = (col, id) => {
+    let numId = parseInt(id, 10);
+    numId--;
+    let elem = document.getElementById(id);
+    switch(col) {
+        case 0:
+            panels[numId].color = 0;
+            elem.style.backgroundColor = "gray";
+            break;
+        case 1:
+            panels[numId].color = 1;
+            elem.style.backgroundColor = "yellow";
+            break;
+        case 2:
+            panels[numId].color = 2;
+            elem.style.backgroundColor = "red";
+            break;
+        case 3:
+            panels[numId].color = 3;
+            elem.style.backgroundColor = "green";
+            break;
+        case 4:
+            panels[numId].color = 4;
+            elem.style.backgroundColor = "white";
+            break;
+        case 5:
+            panels[numId].color = 5;
+            elem.style.backgroundColor = "blue";
+            break;
+        default:
+            panels[numId].color = 0; 
+            elem.style.backgroundColor = "gray";
+            break;
+    }
+    console.log(panels);
+}
+
+const switcher2 = (c, n) => {
+    colorSet(n, c)
+    console.log(panels);
+};
 // const panelChange = (pan, numb) => {
 //     let vn = Math.floor(numb / 5);
 //     let sn = numb % 5;
