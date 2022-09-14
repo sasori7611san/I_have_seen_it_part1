@@ -1,18 +1,5 @@
 let color = 0;
-// let panels = [
-//     [{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}],
-//     [{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}],
-//     [{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}],
-//     [{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}],
-//     [{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}]
-// ];
-// let panels = [
-//     {color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},
-//     {color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},
-//     {color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},
-//     {color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},
-//     {color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false},{color:0, change:false}
-// ];
+
 let panels = [
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
@@ -68,7 +55,7 @@ const action = (num) => {
         // switcher(color, strId, num);
         // switcher2(color, strId);
         colorSet(color, strId);
-        panelChange(panels, num);
+        // panelChange(panels, num);
     }
 };
 
