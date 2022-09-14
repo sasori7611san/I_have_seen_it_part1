@@ -68,7 +68,7 @@ const action = (num) => {
         // switcher(color, strId, num);
         // switcher2(color, strId);
         colorSet(color, strId);
-        // panelChange(panels, num);
+        panelChange(panels, num);
     }
 };
 
@@ -82,6 +82,7 @@ const panelChange = (pan, num) => {
     // 変化判定用
     let preChangeNo = []; 
     let changeNo = [];
+    let anotherColor = false;
     let upStop = false;
     let downStop = false;
     let leftStop = false;
@@ -90,289 +91,506 @@ const panelChange = (pan, num) => {
     let leftDownStop = false;
     let rightUpStop = false;
     let rightDownStop = false;
-    let anotherColor = false;
     const panelStop = () => {
         preChangeNo = [];
         anotherColor = false;
+        return true;
     }
-
-     // 上確認
-    for (i = idNum - 1; i >= LINE_HEAD1; i--) {
-        if (i % 5 === snum && !upStop) {
-            if (pan[i] !== cn && pan[i] > 1) {
-                if (i / 5 !== LINE1) {
-                    preChangeNo.push(i);
-                    anotherColor = true;
-                } else {
-                    upStop = true;
-                    panelStop();
-                }
-            } else if (pan[i] === cn && anotherColor) {
-                upStop = true;
-                for (const j of preChangeNo) {
-                    changeNo.push(j);
-                }
-                panelStop();
-            } else {
-                upStop = true;
-                panelStop();
-            }
-        }
-    }
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 下確認
-    for (i = idNum + 1; i <= LINE_BOTTOM5; i++) {
-        if (i % 5 === snum && !downStop) {
-            if (pan[i] !== cn && pan[i] > 1) {
-                if (i / 5 !== LINE5) {
-                    preChangeNo.push(i);
-                    anotherColor = true;
-                } else {
-                    downStop = true;
-                    panelStop();
-                }
-            } else if (pan[i] === cn && anotherColor) {
-                downStop = true;
-                for (const j of preChangeNo) {
-                    changeNo.push(j);
-                }
-                panelStop();
-            } else {
-                downStop = true;
-                panelStop();
-            }
-        }
-    }
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 横の準備
-    line = 0;
-    lineLast = 0;
-    switch (vnum) {
-        case 1:
-            line = LINE_HEAD2;
-            lineLast = LINE_BOTTOM2;
-            break;
-        case 2:
-            line = LINE_HEAD3;
-            lineLast = LINE_BOTTOM3;
-            break;
-        case 3:
-            line = LINE_HEAD4;
-            lineLast = LINE_BOTTOM4;
-            break;
-        case 4:
-            line = LINE_HEAD5;
-            lineLast = LINE_BOTTOM5;
-            break;
-        default:
-            line = LINE_HEAD1;
-            lineLast = LINE_BOTTOM1;
-            break;
-    }
-    // 左確認
-    for (i = idNum - 1; i >= line; i--) {
-        if(!leftStop) {
-            if (pan[i] !== cn && pan[i] > 1) {
-                if (i > line) {
-                    preChangeNo.push(i);
-                    anotherColor = true;
-                } else {
-                    leftStop = true;
-                    panelStop();
-                }
-            } else if (pan[i] === cn && anotherColor) {
-                leftStop = true;
-                for (const j of preChangeNo) {
-                    changeNo.push(j);
-                }
-                panelStop();
-            } else {
-                leftStop = true;
-                panelStop();
-            }
-        }
-    }
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 右確認
-    for (i = idNum + 1; i <= lineLast; i++) {
-        if(!rightStop) {
-            if (pan[i] !== cn && pan[i] > 1) {
-                if (i < lineLast) {
-                    preChangeNo.push(i);
-                    anotherColor = true;
-                } else {
-                    rightStop = true;
-                    panelStop();
-                }
-            } else if (pan[i] === cn && anotherColor) {
-                rightStop = true;
-                for (const j of preChangeNo) {
-                    changeNo.push(j);
-                }
-                panelStop();
-            } else {
-                rightStop = true;
-                panelStop();
-            }
-        }
-    }
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 左上確認
-    for (i = idNum - 1; i >= 0; i -= 6) {
+    // 色判定（0:灰色、1:黄色は除外）
+    if (cn >= 2) {
+        // 上確認
         if (vnum >= LINE3) {
-            if (snum >= ROW3) {
+            for (i = idNum - 1; i >= LINE_HEAD1; i--) {
+                if (i % 5 === snum && !upStop) {
+                    if (pan[i] !== cn) {
+                        if (i / 5 !== LINE1) {
+                            anotherColor = changeCheck(preChangeNo, i);
+                        } else {
+                            upStop = panelStop();
+                        }
+                    } else if (pan[i] === cn && anotherColor) {
+                        changeNo = changechoice(preChangeNo, changeNo);
+                        upStop = panelStop();
+                    } else {
+                        upStop = panelStop();
+                    }
+                }
+            }
+        }
+        // 下確認
+        if (vnum <= LINE3) {
+            for (i = idNum + 1; i <= LINE_BOTTOM5; i++) {
+                if (i % 5 === snum && !downStop) {
+                    if (pan[i] !== cn) {
+                        if (i / 5 !== LINE5) {
+                            anotherColor = changeCheck(preChangeNo, i);
+                        } else {
+                            downStop  = panelStop();
+                        }
+                    } else if (pan[i] === cn && anotherColor) {
+                        changeNo = changechoice(preChangeNo, changeNo);
+                        downStop =panelStop();
+                    } else {
+                        downStop = panelStop();
+                    }
+                }
+            }
+        }
+        // 横の準備
+        line = 0;
+        lineLast = 0;
+        switch (vnum) {
+            case 1:
+                line = LINE_HEAD2;
+                lineLast = LINE_BOTTOM2;
+                break;
+            case 2:
+                line = LINE_HEAD3;
+                lineLast = LINE_BOTTOM3;
+                break;
+            case 3:
+                line = LINE_HEAD4;
+                lineLast = LINE_BOTTOM4;
+                break;
+            case 4:
+                line = LINE_HEAD5;
+                lineLast = LINE_BOTTOM5;
+                break;
+            default:
+                line = LINE_HEAD1;
+                lineLast = LINE_BOTTOM1;
+                break;
+        }
+        // 左確認
+        for (i = idNum - 1; i >= line; i--) {
+            if(!leftStop) {
+                if (pan[i] !== cn) {
+                    if (i > line) {
+                        anotherColor = changeCheck(preChangeNo, i);
+                    } else {
+                        leftStop = panelStop();
+                    }
+                } else if (pan[i] === cn && anotherColor) {
+                    changeNo = changechoice(preChangeNo, changeNo);
+                    leftStop = panelStop();
+                } else {
+                    leftStop = panelStop();
+                }
+            }
+        }
+         // 右確認
+        for (i = idNum + 1; i <= lineLast; i++) {
+            if(!rightStop) {
+                if (pan[i] !== cn) {
+                    if (i < lineLast) {
+                        anotherColor = changeCheck(preChangeNo, i);
+                    } else {
+                        rightStop =panelStop();
+                    }
+                } else if (pan[i] === cn && anotherColor) {
+                    changeNo = changechoice(preChangeNo, changeNo);
+                    rightStop = panelStop();
+                } else {
+                    rightStop =panelStop();
+                }
+            }
+        }
+        // 左上確認
+        if (vnum >= LINE3 &&  snum >= ROW3) {
+            for (i = idNum - 1; i >= LINE_HEAD1; i -= 6) {
                 if (!leftUpStop) {
-                    if (pan[i] !== cn && pan[i] > 1) {
+                    if (pan[i] !== cn) {
                         if (i > LINE_BOTTOM1) {
                             if (i !== LINE_HEAD2 && i !== LINE_HEAD3) {
-                                preChangeNo.push(i);
-                                anotherColor = true;
+                                anotherColor = changeCheck(preChangeNo, i);
                             } else {
-                                leftUpStop = true;
-                                panelStop();                            
+                                leftUpStop = panelStop();                            
                             }
                         } else {
-                            leftUpStop = true;
-                            panelStop();
+                            leftUpStop = panelStop();
                         }
                     } else if (pan[i] === cn && anotherColor) {
-                        leftUpStop = true;
-                        for (const j of preChangeNo) {
-                            changeNo.push(j);
-                        }
-                        panelStop();
+                         changeNo = changechoice(preChangeNo, changeNo);
+                        leftUpStop = panelStop();
                     } else {
-                        leftUpStop = true;
-                        panelStop();
+                        leftUpStop = panelStop();
                     }
                 }
-            } else {
-                break;
             }
-        } else {
-            break;
-        }      
-    }
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 左下確認
-    for (i = idNum + 1; i < 24; i += 4) {
-        if (vnum <= LINE3) {
-            if (snum >= ROW3) {
+        }
+        // 左下確認
+        if (vnum <= LINE3 && snum >= ROW3) {
+            for (i = idNum + 1; i < LINE_BOTTOM5; i += 4) {
                 if (!leftDownStop) {
-                    if (pan[i] !== cn && pan[i] > 1) {
+                    if (pan[i] !== cn) {
                         if (i < LINE_HEAD5) {
                             if (i !== LINE_HEAD3 && i !== LINE_HEAD4) {
-                                preChangeNo.push(i);
-                                anotherColor = true;
+                                anotherColor = changeCheck(preChangeNo, i);
                             } else {
-                                leftDownStop = true;
-                                panelStop();                              
+                                leftDownStop = panelStop();                              
                             }
                         } else {
-                            leftDownStop = true;
-                            panelStop();
+                            leftDownStop = panelStop();
                         }
                     } else if (pan[i] === cn && anotherColor) {
-                        leftDownStop = true;
-                        for (const j of preChangeNo) {
-                            changeNo.push(j);
-                        }
-                        panelStop();
+                        changeNo = changechoice(preChangeNo, changeNo);
+                        leftDownStop = panelStop();
                     } else {
-                        leftDownStop = true;
-                        panelStop();
+                        leftDownStop = panelStop();
                     }
                 }
-            } else {
-                break;
             }
-        } else {
-            break;
-        }      
-    }    
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 右上確認
-    for (i = idNum - 1; i > 0; i -= 4) {
-        if (vnum >= LINE3) {
-            if (snum <= ROW3) {
+        }
+        // 右上確認
+        if (vnum >= LINE3 && snum <= ROW3) {
+            for (i = idNum - 1; i > LINE_HEAD1; i -= 4) {
                 if (!rightUpStop) {
-                    if (pan[i] !== cn && pan[i] > 1) {
+                    if (pan[i] !== cn) {
                         if (i > LINE_BOTTOM1) {
                             if (i !== LINE_BOTTOM2 && i !== LINE_BOTTOM3) {
-                                preChangeNo.push(i);
-                                anotherColor = true;
+                                anotherColor = changeCheck(preChangeNo, i);
                             } else {
-                                rightUpStop = true;
-                                panelStop();
+                                rightUpStop = panelStop();
                             }
                         } else {
-                            rightUpStop = true;
-                            panelStop();
+                            rightUpStop = panelStop();
                         }
                     } else if (pan[i] === cn && anotherColor) {
-                        rightUpStop = true;
-                        for (const j of preChangeNo) {
-                            changeNo.push(j);
-                        }
-                        panelStop();
+                        changeNo = changechoice(preChangeNo, changeNo);
+                        rightUpStop = panelStop();
                     } else {
-                        rightUpStop = true;
-                        panelStop();
+                        rightUpStop = panelStop();
                     }
                 }
-            } else {
-                break;
-            }
-        } else {
-            break;
-        }      
-    } 
-    // 色変更
-    // changeNo = colorChange2(changeNo, cn);
-    // 右下確認
-    for (i = idNum + 1; i < 25; i += 6) {
-        if (vnum <= LINE3) {
-            if (snum <= ROW3) {
+            } 
+        }
+        // 右下確認
+        if (vnum <= LINE3 && snum <= ROW3) {
+            for (i = idNum + 1; i <= LINE_BOTTOM5; i += 6) {
                 if (!rightDownStop) {
-                    if (pan[i] !== cn && pan[i] > 1) {
+                    if (pan[i] !== cn) {
                         if (i < LINE_HEAD5) {
                             if (i !== LINE_BOTTOM3 && i !== LINE_BOTTOM4) {
-                                preChangeNo.push(i);
-                                anotherColor = true;
+                                anotherColor = changeCheck(preChangeNo, i);
                             } else {
-                                rightDownStop = true;
-                                panelStop();
+                                rightDownStop = panelStop();
                             }
                         } else {
-                            rightDownStop = true;
-                            panelStop();
+                            rightDownStop = panelStop();
                         }
                     } else if (pan[i] === cn && anotherColor) {
-                        rightDownStop = true;
-                        for (const j of preChangeNo) {
-                            changeNo.push(j);
-                        }
-                        panelStop();
+                        changeNo = changechoice(preChangeNo, changeNo);
+                        rightDownStop = panelStop();
                     } else {
-                        rightDownStop = true;
-                        panelStop();
+                        rightDownStop = panelStop();
                     }
                 }
-            } else {
-                break;
             }
-        } else {
-            break;
-        }      
-    } 
-    // 色変更
-    changeNo = colorChange2(changeNo, cn);
+        }
+        // 色変更
+        changeNo = colorChange2(changeNo, cn);
+    }
+    
+    // // 配列に合う番号に修正
+    // let idNum = num--; 
+    // // 起点のパネルと色
+    // let cn = pan[idNum];
+    // let vnum = Math.floor(idNum / 5);
+    // let snum = idNum % 5;
+    // // 変化判定用
+    // let preChangeNo = []; 
+    // let changeNo = [];
+    // let upStop = false;
+    // let downStop = false;
+    // let leftStop = false;
+    // let rightStop = false;
+    // let leftUpStop = false;
+    // let leftDownStop = false;
+    // let rightUpStop = false;
+    // let rightDownStop = false;
+    // let anotherColor = false;
+    // const panelStop = () => {
+    //     preChangeNo = [];
+    //     anotherColor = false;
+    // }
+
+    //  // 上確認
+    // for (i = idNum - 1; i >= LINE_HEAD1; i--) {
+    //     if (i % 5 === snum && !upStop) {
+    //         if (pan[i] !== cn && pan[i] > 1) {
+    //             if (i / 5 !== LINE1) {
+    //                 preChangeNo.push(i);
+    //                 anotherColor = true;
+    //             } else {
+    //                 upStop = true;
+    //                 panelStop();
+    //             }
+    //         } else if (pan[i] === cn && anotherColor) {
+    //             upStop = true;
+    //             for (const j of preChangeNo) {
+    //                 changeNo.push(j);
+    //             }
+    //             panelStop();
+    //         } else {
+    //             upStop = true;
+    //             panelStop();
+    //         }
+    //     }
+    // }
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 下確認
+    // for (i = idNum + 1; i <= LINE_BOTTOM5; i++) {
+    //     if (i % 5 === snum && !downStop) {
+    //         if (pan[i] !== cn && pan[i] > 1) {
+    //             if (i / 5 !== LINE5) {
+    //                 preChangeNo.push(i);
+    //                 anotherColor = true;
+    //             } else {
+    //                 downStop = true;
+    //                 panelStop();
+    //             }
+    //         } else if (pan[i] === cn && anotherColor) {
+    //             downStop = true;
+    //             for (const j of preChangeNo) {
+    //                 changeNo.push(j);
+    //             }
+    //             panelStop();
+    //         } else {
+    //             downStop = true;
+    //             panelStop();
+    //         }
+    //     }
+    // }
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 横の準備
+    // line = 0;
+    // lineLast = 0;
+    // switch (vnum) {
+    //     case 1:
+    //         line = LINE_HEAD2;
+    //         lineLast = LINE_BOTTOM2;
+    //         break;
+    //     case 2:
+    //         line = LINE_HEAD3;
+    //         lineLast = LINE_BOTTOM3;
+    //         break;
+    //     case 3:
+    //         line = LINE_HEAD4;
+    //         lineLast = LINE_BOTTOM4;
+    //         break;
+    //     case 4:
+    //         line = LINE_HEAD5;
+    //         lineLast = LINE_BOTTOM5;
+    //         break;
+    //     default:
+    //         line = LINE_HEAD1;
+    //         lineLast = LINE_BOTTOM1;
+    //         break;
+    // }
+    // // 左確認
+    // for (i = idNum - 1; i >= line; i--) {
+    //     if(!leftStop) {
+    //         if (pan[i] !== cn && pan[i] > 1) {
+    //             if (i > line) {
+    //                 preChangeNo.push(i);
+    //                 anotherColor = true;
+    //             } else {
+    //                 leftStop = true;
+    //                 panelStop();
+    //             }
+    //         } else if (pan[i] === cn && anotherColor) {
+    //             leftStop = true;
+    //             for (const j of preChangeNo) {
+    //                 changeNo.push(j);
+    //             }
+    //             panelStop();
+    //         } else {
+    //             leftStop = true;
+    //             panelStop();
+    //         }
+    //     }
+    // }
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 右確認
+    // for (i = idNum + 1; i <= lineLast; i++) {
+    //     if(!rightStop) {
+    //         if (pan[i] !== cn && pan[i] > 1) {
+    //             if (i < lineLast) {
+    //                 preChangeNo.push(i);
+    //                 anotherColor = true;
+    //             } else {
+    //                 rightStop = true;
+    //                 panelStop();
+    //             }
+    //         } else if (pan[i] === cn && anotherColor) {
+    //             rightStop = true;
+    //             for (const j of preChangeNo) {
+    //                 changeNo.push(j);
+    //             }
+    //             panelStop();
+    //         } else {
+    //             rightStop = true;
+    //             panelStop();
+    //         }
+    //     }
+    // }
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 左上確認
+    // for (i = idNum - 1; i >= 0; i -= 6) {
+    //     if (vnum >= LINE3) {
+    //         if (snum >= ROW3) {
+    //             if (!leftUpStop) {
+    //                 if (pan[i] !== cn && pan[i] > 1) {
+    //                     if (i > LINE_BOTTOM1) {
+    //                         if (i !== LINE_HEAD2 && i !== LINE_HEAD3) {
+    //                             preChangeNo.push(i);
+    //                             anotherColor = true;
+    //                         } else {
+    //                             leftUpStop = true;
+    //                             panelStop();                            
+    //                         }
+    //                     } else {
+    //                         leftUpStop = true;
+    //                         panelStop();
+    //                     }
+    //                 } else if (pan[i] === cn && anotherColor) {
+    //                     leftUpStop = true;
+    //                     for (const j of preChangeNo) {
+    //                         changeNo.push(j);
+    //                     }
+    //                     panelStop();
+    //                 } else {
+    //                     leftUpStop = true;
+    //                     panelStop();
+    //                 }
+    //             }
+    //         } else {
+    //             break;
+    //         }
+    //     } else {
+    //         break;
+    //     }      
+    // }
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 左下確認
+    // for (i = idNum + 1; i < 24; i += 4) {
+    //     if (vnum <= LINE3) {
+    //         if (snum >= ROW3) {
+    //             if (!leftDownStop) {
+    //                 if (pan[i] !== cn && pan[i] > 1) {
+    //                     if (i < LINE_HEAD5) {
+    //                         if (i !== LINE_HEAD3 && i !== LINE_HEAD4) {
+    //                             preChangeNo.push(i);
+    //                             anotherColor = true;
+    //                         } else {
+    //                             leftDownStop = true;
+    //                             panelStop();                              
+    //                         }
+    //                     } else {
+    //                         leftDownStop = true;
+    //                         panelStop();
+    //                     }
+    //                 } else if (pan[i] === cn && anotherColor) {
+    //                     leftDownStop = true;
+    //                     for (const j of preChangeNo) {
+    //                         changeNo.push(j);
+    //                     }
+    //                     panelStop();
+    //                 } else {
+    //                     leftDownStop = true;
+    //                     panelStop();
+    //                 }
+    //             }
+    //         } else {
+    //             break;
+    //         }
+    //     } else {
+    //         break;
+    //     }      
+    // }    
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 右上確認
+    // for (i = idNum - 1; i > 0; i -= 4) {
+    //     if (vnum >= LINE3) {
+    //         if (snum <= ROW3) {
+    //             if (!rightUpStop) {
+    //                 if (pan[i] !== cn && pan[i] > 1) {
+    //                     if (i > LINE_BOTTOM1) {
+    //                         if (i !== LINE_BOTTOM2 && i !== LINE_BOTTOM3) {
+    //                             preChangeNo.push(i);
+    //                             anotherColor = true;
+    //                         } else {
+    //                             rightUpStop = true;
+    //                             panelStop();
+    //                         }
+    //                     } else {
+    //                         rightUpStop = true;
+    //                         panelStop();
+    //                     }
+    //                 } else if (pan[i] === cn && anotherColor) {
+    //                     rightUpStop = true;
+    //                     for (const j of preChangeNo) {
+    //                         changeNo.push(j);
+    //                     }
+    //                     panelStop();
+    //                 } else {
+    //                     rightUpStop = true;
+    //                     panelStop();
+    //                 }
+    //             }
+    //         } else {
+    //             break;
+    //         }
+    //     } else {
+    //         break;
+    //     }      
+    // } 
+    // // 色変更
+    // // changeNo = colorChange2(changeNo, cn);
+    // // 右下確認
+    // for (i = idNum + 1; i < 25; i += 6) {
+    //     if (vnum <= LINE3) {
+    //         if (snum <= ROW3) {
+    //             if (!rightDownStop) {
+    //                 if (pan[i] !== cn && pan[i] > 1) {
+    //                     if (i < LINE_HEAD5) {
+    //                         if (i !== LINE_BOTTOM3 && i !== LINE_BOTTOM4) {
+    //                             preChangeNo.push(i);
+    //                             anotherColor = true;
+    //                         } else {
+    //                             rightDownStop = true;
+    //                             panelStop();
+    //                         }
+    //                     } else {
+    //                         rightDownStop = true;
+    //                         panelStop();
+    //                     }
+    //                 } else if (pan[i] === cn && anotherColor) {
+    //                     rightDownStop = true;
+    //                     for (const j of preChangeNo) {
+    //                         changeNo.push(j);
+    //                     }
+    //                     panelStop();
+    //                 } else {
+    //                     rightDownStop = true;
+    //                     panelStop();
+    //                 }
+    //             }
+    //         } else {
+    //             break;
+    //         }
+    //     } else {
+    //         break;
+    //     }      
+    // } 
+    // // 色変更
+    // changeNo = colorChange2(changeNo, cn);
 
 };
 
@@ -436,6 +654,17 @@ const colorChange2 = (chgn, colNo) => {
     return chgn;
 }
 
+const changechoice = (preChangeNo, changeNo) => {
+    for (const j of preChangeNo) {
+        changeNo.push(j);
+    }
+    return changeNo;
+}
+
+const changeCheck = (preChangeNo, i) => {
+    preChangeNo.push(i);
+    return true;
+}
 // const switcher2 = (c, n) => {
 //     colorSet(n, c)
 //     console.log(panels);
