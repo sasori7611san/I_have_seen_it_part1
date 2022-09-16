@@ -7,8 +7,8 @@ export const Home: FC = memo(() => {
   return (
     <>
       <Board />
-      {/* <ChoiceColor /> */}
-      <SelectBox />
+      <ChoiceColor />
+      {/* <SelectBox /> */}
     </>
   );
 });

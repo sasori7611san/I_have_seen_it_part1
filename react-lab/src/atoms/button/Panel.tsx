@@ -1,5 +1,6 @@
-import { FC, memo, ReactNode, useState } from 'react';
+import { FC, memo, ReactNode, useContext, useState } from 'react';
 import '../../App.css';
+import { Context } from './ColorButton';
 
 type Props = {
   children: ReactNode;
@@ -8,26 +9,33 @@ type Props = {
 
 export const Panel: FC<Props> = memo((props: any): any => {
   const { children, colorNo } = props;
+  const panelColorNo = useContext(Context);
   let colors: string = 'grayPanel';
   // let [panelColor, setPanelColor] = useState(props.colorNo);
   switch (colorNo) {
     case 1:
       colors = 'yellowPanel';
+      console.log('yellow');
       break;
     case 2:
       colors = 'redPanel';
+      console.log('red');
       break;
     case 3:
       colors = 'greenPanel';
+      console.log('green');
       break;
     case 4:
       colors = 'whitePanel';
+      console.log('white');
       break;
     case 5:
       colors = 'bluePanel';
+      console.log('blue');
       break;
     default:
       colors = 'grayPanel';
+      console.log('gray');
       break;
   }
   return (
