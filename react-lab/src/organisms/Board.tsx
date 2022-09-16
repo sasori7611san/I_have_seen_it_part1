@@ -1,41 +1,44 @@
-import { Panel } from '../atoms/button/Panel';
+import { memo } from 'react';
 import '../App.css';
+import { Panel } from '../atoms/button/Panel';
+import { useRecoilValue } from 'recoil';
+import { colorNumber } from '../panel/colorNumber';
 
-export const Board = () => {
+export const Board = memo((props) => {
+  // const { colorNo } = props;
+  // const colorNo = useRecoilValue(colorNumber);
   return (
     <>
-      <Panel>1</Panel>
-      <Panel>2</Panel>
-      <Panel>3</Panel>
-      <Panel>4</Panel>
-      <Panel>5</Panel>
+      <Panel colorNo={0}>1</Panel>
+      <Panel colorNo={1}>2</Panel>
+      <Panel colorNo={2}>3</Panel>
+      <Panel colorNo={3}>4</Panel>
+      <Panel colorNo={4}>5</Panel>
       <br />
-      <Panel>6</Panel>
-      <Panel>7</Panel>
-      <Panel>8</Panel>
-      <Panel>9</Panel>
-      <Panel>10</Panel>
+      <Panel colorNo={5}>6</Panel>
+      <Panel colorNo={6}>7</Panel>
+      <Panel colorNo={0}>8</Panel>
+      <Panel colorNo={0}>9</Panel>
+      <Panel colorNo={0}>10</Panel>
       <br />
-      <Panel>11</Panel>
-      <Panel>12</Panel>
-      <Panel>13</Panel>
-      <Panel>14</Panel>
-      <Panel>15</Panel>
+      <Panel colorNo={0}>11</Panel>
+      <Panel colorNo={0}>12</Panel>
+      <Panel colorNo={0}>13</Panel>
+      <Panel colorNo={0}>14</Panel>
+      <Panel colorNo={0}>15</Panel>
       <br />
-      <Panel>16</Panel>
-      <Panel>17</Panel>
-      <Panel>18</Panel>
-      <Panel>19</Panel>
-      <Panel>20</Panel>
+      <Panel colorNo={0}>16</Panel>
+      <Panel colorNo={0}>17</Panel>
+      <Panel colorNo={0}>18</Panel>
+      <Panel colorNo={0}>19</Panel>
+      <Panel colorNo={0}>20</Panel>
       <br />
-      <Panel>21</Panel>
-      <Panel>22</Panel>
-      <Panel>23</Panel>
-      <Panel>24</Panel>
-      <Panel>25</Panel>
+      <Panel colorNo={0}>21</Panel>
+      <Panel colorNo={0}>22</Panel>
+      <Panel colorNo={0}>23</Panel>
+      <Panel colorNo={0}>24</Panel>
+      <Panel colorNo={0}>25</Panel>
       <br />
     </>
   );
-  // return <Panel backColor={0}>1</Panel>;
-  // return <p>Board</p>;
-};
+});

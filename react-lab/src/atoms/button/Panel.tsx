@@ -3,12 +3,38 @@ import '../../App.css';
 
 type Props = {
   children: ReactNode;
-  // backColor: number;
+  colorNo: number;
 };
 
 export const Panel: FC<Props> = memo((props: any): any => {
-  const { children } = props;
-  return <button className="panel">{children}</button>;
+  const { children, colorNo } = props;
+  let colors: string = 'grayPanel';
+  // let [panelColor, setPanelColor] = useState(props.colorNo);
+  switch (colorNo) {
+    case 1:
+      colors = 'yellowPanel';
+      break;
+    case 2:
+      colors = 'redPanel';
+      break;
+    case 3:
+      colors = 'greenPanel';
+      break;
+    case 4:
+      colors = 'whitePanel';
+      break;
+    case 5:
+      colors = 'bluePanel';
+      break;
+    default:
+      colors = 'grayPanel';
+      break;
+  }
+  return (
+    <button id={children} className={colors}>
+      {children}
+    </button>
+  );
   // const { children, backColor } = props;
   // let [colors, useColors] = useState<number>(0);
   // let panelColor: string;

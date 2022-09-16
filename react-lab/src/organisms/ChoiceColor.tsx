@@ -17,6 +17,4 @@ export const ChoiceColor = () => {
       <GrayButton />
     </>
   );
-  // return <Panel backColor={0}>1</Panel>;
-  // return <p>Board</p>;
 };
