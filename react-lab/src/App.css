@@ -2,7 +2,50 @@
   text-align: center;
 }
 
-Panel.button{
+.panel {
   width: 60px;
   height: 60px;
+  background-color: gray;
+}
+
+.grayButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+}
+
+.redButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: red;
+}
+
+.greenButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: green;
+}
+
+.whiteButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+}
+
+.blueButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: blue;
+}
+
+.yellowButton {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: yellow;
 }
