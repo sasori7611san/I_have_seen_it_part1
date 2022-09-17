@@ -38,11 +38,7 @@ export const Panel: FC<Props> = memo((props: any): any => {
       console.log('gray');
       break;
   }
-  return (
-    <button id={children} className={colors}>
-      {children}
-    </button>
-  );
+  return <button className={colors}>{children}</button>;
   // const { children, backColor } = props;
   // let [colors, useColors] = useState<number>(0);
   // let panelColor: string;
