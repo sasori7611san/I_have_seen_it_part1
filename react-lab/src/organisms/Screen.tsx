@@ -1,10 +1,22 @@
+import { FC } from 'react';
 import { Panel } from '../atoms/button/Panel';
-import '../App.css';
-import { useContext } from 'react';
+import { BlueButton } from '../atoms/button/BlueButton';
+import { GrayButton } from '../atoms/button/GrayButton';
+import { GreenButton } from '../atoms/button/GreenButton';
+import { RedButton } from '../atoms/button/RedButton';
+import { WhiteButton } from '../atoms/button/WhiteButton';
+import { YellowButton } from '../atoms/button/YellowButton';
 
-// const colorNo = useContext()
+// enum colors {
+//   GRAY,
+//   YELLOW,
+//   RED,
+//   GREEN,
+//   WHITE,
+//   BLUE,
+// }
 
-export const Board = () => {
+export const Screen: FC = () => {
   // 使用色番号保持
   let color: number = 0;
   // 縦要素番号
@@ -445,6 +457,11 @@ export const Board = () => {
       }
     }
   };
+  // 色ボタン選択
+  const onClickColor = () => {
+    // color = num;
+    alert('押した');
+  };
   return (
     <>
       <Panel colorNo={panels[1][1]}>1</Panel>
@@ -477,36 +494,12 @@ export const Board = () => {
       <Panel colorNo={panels[5][4]}>24</Panel>
       <Panel colorNo={panels[5][5]}>25</Panel>
       <br />
-      {/* <Panel colorNo={5}>1</Panel>
-      <Panel colorNo={5}>2</Panel>
-      <Panel colorNo={5}>3</Panel>
-      <Panel colorNo={5}>4</Panel>
-      <Panel colorNo={5}>5</Panel>
-      <br />
-      <Panel colorNo={1}>6</Panel>
-      <Panel colorNo={1}>7</Panel>
-      <Panel colorNo={1}>8</Panel>
-      <Panel colorNo={1}>9</Panel>
-      <Panel colorNo={1}>10</Panel>
-      <br />
-      <Panel colorNo={2}>11</Panel>
-      <Panel colorNo={2}>12</Panel>
-      <Panel colorNo={2}>13</Panel>
-      <Panel colorNo={2}>14</Panel>
-      <Panel colorNo={2}>15</Panel>
-      <br />
-      <Panel colorNo={3}>16</Panel>
-      <Panel colorNo={3}>17</Panel>
-      <Panel colorNo={3}>18</Panel>
-      <Panel colorNo={3}>19</Panel>
-      <Panel colorNo={3}>20</Panel>
-      <br />
-      <Panel colorNo={4}>21</Panel>
-      <Panel colorNo={4}>22</Panel>
-      <Panel colorNo={4}>23</Panel>
-      <Panel colorNo={4}>24</Panel>
-      <Panel colorNo={4}>25</Panel>
-      <br /> */}
+      <RedButton>{sheetsRed}</RedButton>
+      <GreenButton>{sheetsGreen}</GreenButton>
+      <WhiteButton>{sheetsWhite}</WhiteButton>
+      <BlueButton>{sheetsBlue}</BlueButton>
+      <YellowButton>{}</YellowButton>
+      <GrayButton>{}</GrayButton>
     </>
   );
 };

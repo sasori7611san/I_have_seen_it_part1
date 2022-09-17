@@ -1,6 +1,16 @@
-import { FC, memo } from 'react';
-import '../../App.css';
+import { FC, memo, ReactNode } from 'react';
+import styled from 'styled-components';
+import { ColorButton } from './ColorButton';
 
-export const RedButton: FC = memo((): any => {
-  return <button className="redButton"></button>;
+type Props = {
+  children: ReactNode;
+};
+
+export const RedButton: FC<Props> = memo((props): any => {
+  const { children } = props;
+  return <SButton>{children}</SButton>;
 });
+
+const SButton = styled(ColorButton)`
+  background-color: red;
+`;

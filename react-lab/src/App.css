@@ -2,10 +2,40 @@
   text-align: center;
 }
 
-.panel {
+.grayPanel {
   width: 60px;
   height: 60px;
   background-color: gray;
+}
+
+.redPanel {
+  width: 60px;
+  height: 60px;
+  background-color: red;
+}
+
+.greenPanel {
+  width: 60px;
+  height: 60px;
+  background-color: green;
+}
+
+.whitePanel {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+}
+
+.bluePanel {
+  width: 60px;
+  height: 60px;
+  background-color: blue;
+}
+
+.yellowPanel {
+  width: 60px;
+  height: 60px;
+  background-color: yellow;
 }
 
 .grayButton {

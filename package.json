@@ -23,6 +23,8 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
+    "style-components": "^0.1.0",
+    "styled-components": "^5.3.5",
     "ts-node-dev": "^1.0.0-pre.44"
   }
 }
