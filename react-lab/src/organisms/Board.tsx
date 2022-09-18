@@ -68,7 +68,7 @@ export const Board = () => {
   };
 
   // 番号選択
-  const action = (num: number) => {
+  const action = (num: number): number => {
     if (num <= 25 && num > 0) {
       // 取得配列要素取得
       if (Math.floor(num / 5) < 5 && num % 5 !== 0) {
@@ -82,6 +82,7 @@ export const Board = () => {
       panelChange(panels, verNo, sideNo);
       total(panels);
     }
+    return color;
   };
 
   const colorSet = (col: number, id: number, v: number, s: number) => {
@@ -447,6 +448,86 @@ export const Board = () => {
   };
   return (
     <>
+      {/* <Panel onClick={action(color)} colorNo={panels[1][1]}>
+        1
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[1][2]}>
+        2
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[1][3]}>
+        3
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[1][4]}>
+        4
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[1][5]}>
+        5
+      </Panel>
+      <br />
+      <Panel onClick={action(color)} colorNo={panels[2][1]}>
+        6
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[2][2]}>
+        7
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[2][3]}>
+        8
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[2][4]}>
+        9
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[2][5]}>
+        10
+      </Panel>
+      <br />
+      <Panel onClick={action(color)} colorNo={panels[3][1]}>
+        11
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[3][2]}>
+        12
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[3][3]}>
+        13
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[3][4]}>
+        14
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[3][5]}>
+        15
+      </Panel>
+      <br />
+      <Panel onClick={action(color)} colorNo={panels[4][1]}>
+        16
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[4][2]}>
+        17
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[4][3]}>
+        18
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[4][4]}>
+        19
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[4][5]}>
+        20
+      </Panel>
+      <br />
+      <Panel onClick={action(color)} colorNo={panels[5][1]}>
+        21
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[5][2]}>
+        22
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[5][3]}>
+        23
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[5][4]}>
+        24
+      </Panel>
+      <Panel onClick={action(color)} colorNo={panels[5][5]}>
+        25
+      </Panel> */}
+      <br />
       <Panel colorNo={panels[1][1]}>1</Panel>
       <Panel colorNo={panels[1][2]}>2</Panel>
       <Panel colorNo={panels[1][3]}>3</Panel>

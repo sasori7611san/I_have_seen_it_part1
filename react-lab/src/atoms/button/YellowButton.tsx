@@ -8,9 +8,15 @@ type Props = {
 
 export const YellowButton: FC<Props> = memo((props): any => {
   const { children } = props;
-  return <SButton>{children}</SButton>;
+  const getColorNo = () => {
+    return 1;
+  };
+  return <SButton onClick={getColorNo}>{children}</SButton>;
 });
 
-const SButton = styled(ColorButton)`
+const SButton = styled.button`
+  margin: 5px;
+  width: 40px;
+  height: 40px;
   background-color: yellow;
 `;
