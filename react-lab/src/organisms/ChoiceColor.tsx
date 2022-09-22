@@ -48,6 +48,7 @@ export const ChoiceColor = () => {
       <GreenButton>{}</GreenButton>
       <WhiteButton>{}</WhiteButton>
       <BlueButton>{}</BlueButton>
+      <br />
       <YellowButton>{}</YellowButton>
       <GrayButton>{}</GrayButton>
     </>

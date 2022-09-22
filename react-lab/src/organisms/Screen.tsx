@@ -644,6 +644,7 @@ export const Screen: FC = () => {
       <GreenButton>{sheetsGreen}</GreenButton>
       <WhiteButton>{sheetsWhite}</WhiteButton>
       <BlueButton>{sheetsBlue}</BlueButton>
+      <br />
       <YellowButton>{}</YellowButton>
       <GrayButton>{}</GrayButton>
     </>
