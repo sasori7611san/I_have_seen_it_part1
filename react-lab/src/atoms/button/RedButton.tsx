@@ -1,17 +1,27 @@
-import { FC, memo, ReactNode } from 'react';
+import { createContext, FC, memo, ReactNode } from 'react';
 import styled from 'styled-components';
 import { ColorButton } from './ColorButton';
+import { useContext } from 'react';
+import { ColorContext } from '../../ColorProvider';
 
-type Props = {
-  children: ReactNode;
-};
+// type Props = {
+//   children: ReactNode;
+//   colorNumber: number;
+// };
 
-export const RedButton: FC<Props> = memo((props): any => {
-  const { children } = props;
+// export const colorNum = createContext(2);
+
+export const RedButton: FC/* <Props> */= memo((): any => {
+  let [color, setColor]: any = useContext(ColorContext);
+  // const COLORNO = 2;
+  // const { children } = props;
   const getColorNo = () => {
-    return 2;
+    setColor(color = 2);
+    return color;
   };
-  return <SButton onClick={getColorNo}>{children}</SButton>;
+
+  return <SButton onClick={getColorNo}></SButton>;
+  // return <SButton onClick={getColorNo}>{children}</SButton>;
 });
 
 const SButton = styled.button`

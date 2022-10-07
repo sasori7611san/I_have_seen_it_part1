@@ -1,8 +1,14 @@
-import { Panel } from '../atoms/button/Panel';
 import '../App.css';
 import { useContext } from 'react';
+import { Panel } from '../atoms/button/Panel';
+import { BlueButton } from '../atoms/button/BlueButton';
+import { GrayButton } from '../atoms/button/GrayButton';
+import { GreenButton } from '../atoms/button/GreenButton';
+import { colorNum, RedButton } from '../atoms/button/RedButton';
+import { WhiteButton } from '../atoms/button/WhiteButton';
+import { YellowButton } from '../atoms/button/YellowButton';
 
-// const colorNo = useContext()
+const [color, setColor]: any = useContext(colorNum)
 
 export const Board = () => {
   // 使用色番号保持
